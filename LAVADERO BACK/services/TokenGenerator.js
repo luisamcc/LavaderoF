@@ -12,7 +12,7 @@ jwt.createAccessToken = ( user ) => {
         email: email
     }
     
-    return jwt.sign( payload , privateKey , { expiresIn: '7d' } );
+    return jwt.sign( payload , privateKey , { expiresIn: '3h' } );
 }
 
 module.exports = jwt

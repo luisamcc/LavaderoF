@@ -7,7 +7,7 @@ const port = 3001
 const mongoose = require('mongoose');
 const { restart } = require('nodemon');
 
-// hCEMOS LA CADENA DE CONECCION 
+// HACEMOS LA CADENA DE CONEXION 
 const {stringConn} = require('./db/dbConnection')
 mongoose.connect(stringConn);
 
@@ -32,7 +32,7 @@ app.use('/api/v1',router); //,
 //importando el modelo de usuario
 const User = require('./models/UserModel')
 
-//Operaciones CRUD........ ToDo
+//Operaciones CRUD
 //Crear usuario - Create - create EndPoint - C
 router.post('/createUse', (req , res) => {
     //desestructuramos el Body
