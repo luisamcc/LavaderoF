@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { createUser, editUser, deleteUser, getAllUsers, userLogin } = require ('../controllers/UserController')
+const { createUser, editUser, deleteUser, getAllUsers, userLogin } = require ('../controllers/UserControllers')
 
 //Ruta de prueba
 router.get("/", (req, res) => {
