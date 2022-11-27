@@ -2,6 +2,7 @@ const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const salt = "MisionTic2022";
+const jwt = require('../services/TokenGenerator')
 
 //EndPoint para crear usuario
 const createUser = (req, res) => {
@@ -117,7 +118,7 @@ function userIsUpdate (id, update, res) {
 }
 
 const userLogin = (req, res) => {
-  res.send("User Login On");
+  // res.send("User Login On");
   //instrucciones para loguear usuario
   const { body } = req
   const { email , password } = body

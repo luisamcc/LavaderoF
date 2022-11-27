@@ -18,19 +18,6 @@ export const userSignUp = (dataUser) =>{
                     return result;
                 }
             })
-
-            // // PARA COMPROBAR LA CONEXION antes de poner el result en el then
-                // {
-                // if(result.status){
-                //     console.log('Estamos desde userSignUp')
-                //     console.log('usuario guardado con exito')
-                //     console.log(result)
-                //     return result
-                // }else{
-                //     console.log(result.message)
-                // }
-                //})
-
             .catch(err => console.log(err.message))
 };
 //API log
@@ -45,14 +32,7 @@ export const userSignIn = (dataUser) => {
     }
 
     return fetch(url, requestInit)
-    .then(res => res.json())
-    .then(result => result)// {
-        // if (result.message){
-        //     console.log(result.message)
-        // }else{
-        //     console.log(result.accessToken)
-        // }
-    //}
-    //)
-    .catch(err => console.log(err))
+        .then(res => res.json())
+        .then(result => result)
+        .catch(err => console.log(err))
 }
