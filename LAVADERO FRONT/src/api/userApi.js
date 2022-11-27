@@ -26,4 +26,27 @@ export const userSignUp = (dataUser) =>{
                 // }
                 //})
             .catch(err => console.log(err.message))
+};
+//API log
+export const userSignIn = (dataUser) => {
+    const url = `${base_url}/${api_version}/login`
+    const requestInit = {
+        metohod: "POST",
+        body: JSON.stringify(dataUser),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch(url, requestInit)
+    .then(res => res.json())
+    .then(result => result// {
+        // if (result.message){
+        //     console.log(result.message)
+        // }else{
+        //     console.log(result.accessToken)
+        // }
+    //}
+    )
+    .catch(err => console.log(err))
 }
