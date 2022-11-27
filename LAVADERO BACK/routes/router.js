@@ -14,6 +14,6 @@ router.put("/update-user/:id", editUser);
 router.delete("/delete-user/:id", deleteUser);
 
 //Ruta para el login de usuario...ToDo
-router.post('/login', userLogin)
+router.post('/log-in', userLogin)
 
 module.exports = router

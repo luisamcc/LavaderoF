@@ -12,7 +12,12 @@ export const userSignUp = (dataUser) =>{
 
     return fetch(url_api, params)
             .then(res => res.json())
-            .then(result => result)
+            .then(result => { 
+                if (result){
+                    console.log(result);
+                    return result;
+                }
+            })
 
             // // PARA COMPROBAR LA CONEXION antes de poner el result en el then
                 // {
@@ -25,11 +30,12 @@ export const userSignUp = (dataUser) =>{
                 //     console.log(result.message)
                 // }
                 //})
+
             .catch(err => console.log(err.message))
 };
 //API log
 export const userSignIn = (dataUser) => {
-    const url = `${base_url}/${api_version}/login`
+    const url = `${base_url}/${api_version}/log-in`
     const requestInit = {
         metohod: "POST",
         body: JSON.stringify(dataUser),
@@ -40,13 +46,13 @@ export const userSignIn = (dataUser) => {
 
     return fetch(url, requestInit)
     .then(res => res.json())
-    .then(result => result// {
+    .then(result => result)// {
         // if (result.message){
         //     console.log(result.message)
         // }else{
         //     console.log(result.accessToken)
         // }
     //}
-    )
+    //)
     .catch(err => console.log(err))
 }

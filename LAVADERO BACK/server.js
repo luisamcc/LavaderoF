@@ -1,6 +1,7 @@
 console.log("Hola Server, Grupo EGDA");
 
-const { default: userEvent } = require('@testing-library/user-event');
+const { Router } = require('express');
+// const { default: userEvent } = require('@testing-library/user-event');
 // crear una const de tipo express que manejar los hilos de nuestro archivo server.js
 const express = require('express')
 const app = express();
@@ -34,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Enviar la constante router para que app la ejecute
-app.use('/api/v1',router); //,
+app.use('/api/v1',Router); //,
 
 // //importando el modelo de usuario
 // const User = require('./models/UserModel')
