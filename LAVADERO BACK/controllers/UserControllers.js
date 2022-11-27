@@ -14,7 +14,6 @@ const createUser = (req, res) => {
     password: body.password,
   });
 
-
   User.findOne({ email: newUser.email }, (err, userFinded) => {
     if (userFinded) {
       res.send({ message: "Email ya se encuentra en uso" });
