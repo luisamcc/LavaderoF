@@ -1,11 +1,12 @@
 console.log("Hola Server, Grupo EGDA");
 
+const { default: userEvent } = require('@testing-library/user-event');
 // crear una const de tipo express que manejar los hilos de nuestro archivo server.js
 const express = require('express')
 const app = express();
 const port = 3001
 const mongoose = require('mongoose');
-const { restart } = require('nodemon');
+const { restart } = require('nodemon'); //////////////
 
 // HACEMOS LA CADENA DE CONEXION 
 const {stringConn} = require('./db/dbConnection')
@@ -34,7 +35,7 @@ const User = require('./models/UserModel')
 
 //Operaciones CRUD
 //Crear usuario - Create - create EndPoint - C
-router.post('/createUse', (req , res) => {
+router.post('/createUser', (req , res) => {
     //desestructuramos el Body
     const { body } = req //es una forma
 
