@@ -4,7 +4,8 @@ console.log("Hola Server, Grupo EGDA");
 const express = require('express')
 const app = express();
 const port = 3001
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { restart } = require('nodemon');
 
 // hCEMOS LA CADENA DE CONECCION 
 const {stringConn} = require('./db/dbConnection')
@@ -35,35 +36,95 @@ const User = require('./models/UserModel')
 //Crear usuario - Create - create EndPoint - C
 router.post('/createUse', (req , res) => {
     //desestructuramos el Body
-    // const { body}=req --es una forma
+    const { body } = req //es una forma
 
     const newUser = new User({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: req.body.password
+        firstname: body.firstname,
+        lastname:  body.lastname,
+        // en el email vamos a hacer una validación 
+        email:     body.email.toLowerCase(),
+        password:  body.password
 
     })
-    //guardar el usuario creado
-    res.send(
-        {
-            message: 'Usuario creado con exito',
-            user: newUser
+    User.findOne({ email: newUser.email}, (err, userFinded) =>{
+        if (userFinded) {
+            res.send({ message: 'El usuario ya existe '})
+        }else{
+                //4. guardar el usuario creado, con parametro tipo callback
+            newUser.save((err, userStore )=>{
+            if (userStore) {
+                res.send ({
+                    message: 'Usuario Creado con exito',
+                } )
+                }
+                if (err) {
+                res.send({message: 'Error del Servidor'})
+            } 
+        }) 
         }
-    )
-
-    // por consola como respuesta
-    // res.send( newUser )
-
-    // console.log(req.body);
-    // res.send(req.body)
-    // res.send({message: 'EndPoint Create User On'})
-
+        if (err) {
+                res.send({message: 'Error del servidor'})
+            }
+    })
 })
-//Leer Usuario - Read -R
-//Editar Usuario - Update - U
-//Eliminar Usuario - Delete - D
 
+//Leer Usuario - Read -R
+router.get('/getAllUsers', (req, res)=>{
+    User.find({}, function (err, userDocs){
+        if(err){
+            res.status(500).send({message: 'Error del servidor: ' + err})
+        }else if(!userDocs){
+            res.status(404).send({message: 'Colección sin documentos'})
+        }else{
+            res.status(200).send({userDocs})
+        }
+    });
+})
+//Editar Usuario - Update - U
+router.put('/updateUser/:id', (req, res) =>{
+    const idToUpdate = req.params.id;
+    const {body} = req
+    const userToUpdate = {
+        firstname: body.firstname,
+        lastname: body.lastname,
+        email: body.email.toLowerCase(),
+        password: body.password
+    }
+
+    User.findOne({email: userToUpdate.email}, (err, emailDinded) =>{
+        if(err){
+            res.send({message: 'Error del servidor: ' + err})
+        }else if(emailFinded){
+            res.send({message: 'Email ya se encuentra en uso'})
+        }else{
+            User.findByIdAndUpdate(idToUpdate, userToUpdate, (err, userUpdated) => {
+                if(userUpdated){
+                    res.status(500).send({message: `Error del servidor ${err}`})
+                }else if(!userUpdated){
+                    res.send({message: 'Usuario no encontrado'})
+                }else{
+                    res.status(500).send({message: `Error del servidor: ${err}`})
+                }
+            })
+        }
+    })
+})
+
+//Eliminar Usuario - Delete - D
+router.delete('/delete-user/:id', (req, res) => {
+    const idToDelete = req.params.id;
+    User.findByIdAndRemove({_id: idToDelete}, (err, userDeleted) => {
+        if(err){
+            res.send({message: 'Error del servidor: ' + err})
+        }else if(userDeleted){
+            res.send({message: 'Usuario eliminado con exito'})
+        }else{
+            res.send({message: 'Usuario no encontrado'})
+        }
+    })
+})
+//const router
+app.use('/api/v1', router);
 // por medio de la cost app activamos la escucha de nuestro server 
 //Por medio de la const app activamos la escucha par
 app.listen(port, () => {
